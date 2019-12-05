@@ -17,3 +17,8 @@ missing
 test-driver
 .dirstamp
 ylwrap
+
+# clion stuff
+.idea
+cmake-build-debug
+cmake-build-release
