@@ -64,7 +64,6 @@ if (USE_OPENSSL)
 endif (USE_OPENSSL)
 
 find_package(Threads REQUIRED)
-find_package(PkgConfig REQUIRED)
 
 ## Set up noise c library without protobuf library
 
