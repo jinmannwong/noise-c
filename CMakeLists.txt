@@ -44,15 +44,12 @@ if (ENABLE_UBSAN)
 endif (ENABLE_UBSAN)
 
 find_package(OpenSSL REQUIRED)
-if (OPENSSL_FOUND)
-    include_directories(${OPENSSL_INCLUDE_DIRS})
-endif(OPENSSL_FOUND)
+find_package(Threads REQUIRED)
 
 if (USE_SODIUM)
     list(APPEND CMAKE_MODULE_PATH ${PROJECT_SOURCE_DIR}/cmake)
     find_package(sodium REQUIRED)
     if (sodium_FOUND)
-        include_directories(${sodium_INCLUDE_DIRS})
         message(STATUS "Using libsodium ${sodium_VERSION_STRING}")
         set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -lsodium")
     endif (sodium_FOUND)
@@ -61,8 +58,6 @@ endif (USE_SODIUM)
 if (USE_OPENSSL)
     file(GLOB OPENSSL_SRCS "${CMAKE_CURRENT_SOURCE_DIR}/src/backend/openssl/*.c")
 endif (USE_OPENSSL)
-
-find_package(Threads REQUIRED)
 
 ## Set up noise c library without protobuf library
 
