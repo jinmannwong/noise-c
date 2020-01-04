@@ -43,6 +43,11 @@ if (ENABLE_UBSAN)
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fsanitize=undefined")
 endif (ENABLE_UBSAN)
 
+find_package(OpenSSL REQUIRED)
+if (OPENSSL_FOUND)
+    include_directories(${OPENSSL_INCLUDE_DIRS})
+endif(OPENSSL_FOUND)
+
 if (USE_SODIUM)
     list(APPEND CMAKE_MODULE_PATH ${PROJECT_SOURCE_DIR}/cmake)
     find_package(sodium REQUIRED)
@@ -54,13 +59,7 @@ if (USE_SODIUM)
 endif (USE_SODIUM)
 
 if (USE_OPENSSL)
-    find_package(OPENSSL REQUIRED)
-    pkg_search_module(OPENSSL REQUIRED openssl)
-    if (OPENSSL_FOUND)
-        include_directories(${OPENSSL_INCLUDE_DIRS})
-        message(STATUS "Using OpenSSL ${OPENSSL_VERSION}")
-        file(GLOB OPENSSL_SRCS "${CMAKE_CURRENT_SOURCE_DIR}/src/backend/openssl/*.c")
-    endif (OPENSSL_FOUND)
+    file(GLOB OPENSSL_SRCS "${CMAKE_CURRENT_SOURCE_DIR}/src/backend/openssl/*.c")
 endif (USE_OPENSSL)
 
 find_package(Threads REQUIRED)
@@ -159,9 +158,7 @@ if (USE_SODIUM)
     target_link_libraries(noise_protocol -lsodium)
 endif (USE_SODIUM)
 
-if (USE_OPENSSL)
-    target_link_libraries(noise_protocol ${OPENSSL_LIBRARIES})
-endif (USE_OPENSSL)
+target_link_libraries(noise_protocol ${OPENSSL_LIBRARIES})
 
 ## Set up protobuf library if chosen in option
 
