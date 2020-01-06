@@ -44,6 +44,7 @@ if (ENABLE_UBSAN)
 endif (ENABLE_UBSAN)
 
 find_package(OpenSSL REQUIRED)
+set(CMAKE_CXX_FLAGS  "${CMAKE_CXX_FLAGS} -lssl -lcrypto}")
 find_package(Threads REQUIRED)
 
 if (USE_SODIUM)
