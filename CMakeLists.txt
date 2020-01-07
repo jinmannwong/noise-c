@@ -161,8 +161,7 @@ if (USE_SODIUM)
     target_link_libraries(noise_protocol sodium)
 endif (USE_SODIUM)
 
-target_link_libraries(noise_protocol ${OPENSSL_LIBRARIES})
-target_include_directories(noise_protocol PRIVATE ${OPENSSL_INCLUDE_DIRS})
+target_link_libraries(noise_protocol OpenSSL::SSL OpenSSL::Crypto)
 
 ## Set up protobuf library if chosen in option
 
