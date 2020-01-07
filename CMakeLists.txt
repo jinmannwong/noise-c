@@ -160,9 +160,11 @@ target_include_directories(noise_protocol PRIVATE
 
 if (USE_SODIUM)
     target_link_libraries(noise_protocol -lsodium)
+    target_include_directories(noise_protocol ${sodium_INCLUDE_DIRS})
 endif (USE_SODIUM)
 
 target_link_libraries(noise_protocol ${OPENSSL_LIBRARIES})
+target_include_directories(noise_protocol ${OPENSSL_INCLUDE_DIRS})
 
 ## Set up protobuf library if chosen in option
 
