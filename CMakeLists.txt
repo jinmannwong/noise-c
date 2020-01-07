@@ -53,7 +53,6 @@ find_package(OpenSSL REQUIRED)
 if(OPENSSL_FOUND)
     message(STATUS "Using OpenSSL ${OPENSSL_VERSION}")
 endif()
-set(CMAKE_CXX_FLAGS  "${CMAKE_CXX_FLAGS} -lssl -lcrypto")
 find_package(Threads REQUIRED)
 
 if (USE_SODIUM)
@@ -159,8 +158,7 @@ target_include_directories(noise_protocol PRIVATE
         ${CMAKE_CURRENT_SOURCE_DIR}/src/crypto/goldilocks/src/p448)
 
 if (USE_SODIUM)
-    target_link_libraries(noise_protocol -lsodium)
-    target_include_directories(noise_protocol ${sodium_INCLUDE_DIRS})
+    target_link_libraries(noise_protocol sodium)
 endif (USE_SODIUM)
 
 target_link_libraries(noise_protocol ${OPENSSL_LIBRARIES})
