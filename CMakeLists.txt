@@ -13,6 +13,12 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(THREADS_PREFER_PTHREAD_FLAG ON)
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall")
 
+# Default to a release build
+if (NOT CMAKE_BUILD_TYPE)
+    message(STATUS "Defaulting to Release build")
+    set(CMAKE_BUILD_TYPE "Release" CACHE STRING "The build configuration" FORCE)
+endif (NOT CMAKE_BUILD_TYPE)
+
 # Set goldilocks architecture
 # available: arch_32, arch_arm_32, arch_neon, arch_ref64, arch_x86_64
 set(TARGET_ARCH_DIR_P448 arch_32)
@@ -44,6 +50,9 @@ if (ENABLE_UBSAN)
 endif (ENABLE_UBSAN)
 
 find_package(OpenSSL REQUIRED)
+if(OPENSSL_FOUND)
+    message(STATUS "Using OpenSSL ${OPENSSL_VERSION}")
+endif()
 set(CMAKE_CXX_FLAGS  "${CMAKE_CXX_FLAGS} -lssl -lcrypto")
 find_package(Threads REQUIRED)
 
@@ -52,7 +61,6 @@ if (USE_SODIUM)
     find_package(sodium REQUIRED)
     if (sodium_FOUND)
         message(STATUS "Using libsodium ${sodium_VERSION_STRING}")
-        set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -lsodium")
     endif (sodium_FOUND)
 endif (USE_SODIUM)
 
