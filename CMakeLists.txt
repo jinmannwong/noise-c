@@ -49,10 +49,15 @@ if (ENABLE_UBSAN)
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fsanitize=undefined")
 endif (ENABLE_UBSAN)
 
-find_package(OpenSSL REQUIRED)
-if(OPENSSL_FOUND)
-    message(STATUS "Using OpenSSL ${OPENSSL_VERSION}")
-endif()
+if (NOT EXTERNAL_OPENSSL)
+    find_package(OpenSSL REQUIRED)
+    if (OPENSSL_FOUND)
+        message(STATUS "Using OpenSSL ${OPENSSL_VERSION}")
+    endif (OPENSSL_FOUND)
+else ()
+    message(STATUS "Using external openssl ${EXTERNAL_OPENSSL}")
+endif (NOT EXTERNAL_OPENSSL)
+
 find_package(Threads REQUIRED)
 
 if (USE_SODIUM)
@@ -161,7 +166,11 @@ if (USE_SODIUM)
     target_link_libraries(noise_protocol sodium)
 endif (USE_SODIUM)
 
-target_link_libraries(noise_protocol OpenSSL::SSL OpenSSL::Crypto)
+if (EXTERNAL_OPENSSL)
+    target_link_libraries(noise_protocol ${EXTERNAL_OPENSSL})
+else ()
+    target_link_libraries(noise_protocol OpenSSL::SSL OpenSSL::Crypto)
+endif ()
 
 ## Set up protobuf library if chosen in option
 
