@@ -151,6 +151,7 @@ set(NOISEC_SRCS ${NOISEC_SRCS} ${NOISEC_BACKEND_SRCS})
 # Create libary
 add_library(noise_protocol ${NOISEC_HEADERS} ${NOISEC_SRCS})
 SET_TARGET_PROPERTIES(noise_protocol PROPERTIES LINKER_LANGUAGE C)
+target_compile_definitions(noise_protocol PRIVATE -D_DEFAULT_SOURCE)
 target_include_directories(noise_protocol PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/include/)
 
 # Internal library headers
